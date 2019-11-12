@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      window.paceOptions = {
+        // Only show the progress on regular and ajax-y page navigation,
+        // not every request
+        restartOnRequestAfter: 5,
+
+        ajax: {
+          trackMethods: ['GET', 'POST', 'PUT', 'DELETE', 'REMOVE'],
+          trackWebSockets: true,
+          ignoreURLs: []
+        }
+      };
+    </script>
+    <script src="%PUBLIC_URL%/pace/pace.js"></script>
+    <link href="%PUBLIC_URL%/pace/themes/pace-theme-bounce.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="apple-touch-icon" href="logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+  </head>
+  <body>
+    <button
+      class="btn btn-primary pull-right"
+      id="harlem"
+      style="cursor: pointer; font-family: fantasy,'Fantasque Sans Mono'; float: right; margin: .8em"
+    >
+      <i>✗✗ DO NOT CLICK ME ✗✗</i>
+    </button>
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <script src="%PUBLIC_URL%/harlemshakify.umd.js"></script>
+    <!--    <script src="https://unpkg.com/harlemshakify@1.0.0/dist/harlemshakify.umd.js"></script>-->
+
+    <script>
+      window.fetch = undefined;
+    </script>
+    <script src="https://unpkg.com/whatwg-fetch@latest/dist/fetch.umd.js"></script>
+
+    <script>
+      window.HOST_APP = window.parent !== window ? window.parent : undefined;
+
+      // if (window.HOST_APP) {
+      //   window.HOST_APP.postMessage({ addStyles: true });
+      // }
+
+      const injectedServicesPromise = new Promise(resolve => {
+        if (window.HOST_APP) {
+          window.ON_INJECT = (...injectedServices) => {
+            resolve(injectedServices);
+          };
+
+          window.HOST_APP.postMessage({
+            inject: ['InventoryService', 'ModalService'],
+            callback: 'ON_INJECT'
+          });
+
+          return;
+        }
+
+        resolve(undefined);
+      });
+
+      window.GET_INJECTED_SERVICES = () => injectedServicesPromise;
+
+      document.querySelector('#harlem').addEventListener('click', () => {
+        if (window.HOST_APP) {
+          const hostApp = window.HOST_APP;
+          const script = hostApp.document.createElement('script');
+          script.setAttribute(
+            'src',
+            'https://unpkg.com/harlemshakify@1.0.0/dist/harlemshakify.umd.js'
+          );
+          script.onload = () => {
+            hostApp.harlemshakify();
+          };
+
+          hostApp.document.head.appendChild(script);
+        }
+
+        window.harlemshakify();
+      });
+    </script>
+
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>

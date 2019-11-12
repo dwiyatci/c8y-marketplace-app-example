@@ -1,0 +1,9 @@
+.managedObjectList {
+  padding: 0;
+  margin: 0;
+}
+
+.managedObjectList > li {
+  list-style: none;
+  cursor: pointer;
+}

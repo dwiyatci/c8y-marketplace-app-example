@@ -1,0 +1,26 @@
+.managedObjectsPagination .selected a {
+  box-shadow: 0 0 2px #1b7d9e;
+  background-color: #f3fcff;
+}
+
+.managedObjectsPagination .disabled > a {
+  color: #ccc;
+  background-color: #f8f8f8;
+  border-color: #eee;
+  cursor: default;
+}
+
+.managedObjectsPagination .disabled > a:hover {
+  background-color: #f8f8f8;
+}
+.managedObjectsPagination .break {
+  margin: 0 8px;
+}
+
+.managedObjectsPagination .previous {
+  margin-right: 1rem;
+}
+
+.managedObjectsPagination .next {
+  margin-left: 1rem;
+}

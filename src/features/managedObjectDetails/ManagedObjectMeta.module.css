@@ -1,0 +1,13 @@
+.id {
+  color: #999;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
